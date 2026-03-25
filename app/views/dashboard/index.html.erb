@@ -1,0 +1,99 @@
+<% content_for :title, "Abit - Your Chains" %>
+
+<div class="flex min-h-screen relative">
+  <% if @habits.empty? %>
+    <div class="absolute inset-0 flex items-center justify-center">
+      <div class="text-center">
+        <div class="text-6xl mb-4">🔗</div>
+        <p class="text-slate-400 text-lg mb-2">No chains yet.</p>
+        <p class="text-slate-500 text-sm mb-6">Start building good habits — don't break the chain!</p>
+        <%= link_to "Create your first chain", new_habit_path, class: "bg-teal-500 hover:bg-teal-600 text-white font-medium px-6 py-3 rounded-lg transition-colors" %>
+      </div>
+    </div>
+  <% else %>
+
+    <!-- Dates column -->
+    <div class="flex-shrink-0 w-28 sticky left-0 bg-slate-900 z-10">
+      <div class="h-44"></div>
+      <% @days.each do |day| %>
+        <div class="h-12 flex flex-col justify-center px-3 border-b border-slate-700/30 <%= day == Date.current ? 'bg-teal-900/20' : '' %>">
+          <span class="text-xs text-slate-300 font-medium uppercase tracking-wide"><%= day.strftime("%b %-d") %></span>
+          <span class="text-xs text-slate-500"><%= day.strftime("%A")[0..2].upcase %></span>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Habit chains scroll area -->
+    <div class="flex flex-1 overflow-x-auto">
+      <% @habits.each do |habit| %>
+        <div class="flex-shrink-0 w-36 border-l border-slate-700/30" id="habit-<%= habit.id %>">
+
+          <!-- Habit card header -->
+          <div class="h-44 p-3 flex flex-col justify-between border-b border-slate-700/50"
+               style="background-color: <%= habit.color %>22; border-top: 3px solid <%= habit.color %>;">
+            <div>
+              <h3 class="font-bold text-xs text-white leading-tight tracking-wide"><%= habit.name.upcase %></h3>
+              <% if habit.description.present? %>
+                <p class="text-xs mt-1 text-slate-300 leading-tight line-clamp-2"><%= habit.description %></p>
+              <% end %>
+            </div>
+            <div class="space-y-0.5">
+              <div class="text-xs text-slate-400">Longest: <span class="font-semibold text-slate-200" id="habit-<%= habit.id %>-longest"><%= habit.longest_streak %></span></div>
+              <div class="text-xs text-slate-400">Current streak: <span class="font-semibold text-slate-200" id="habit-<%= habit.id %>-current"><%= habit.current_streak %></span></div>
+              <div class="flex gap-2 mt-1.5 pt-1.5 border-t border-slate-700/50">
+                <%= link_to edit_habit_path(habit), class: "text-slate-500 hover:text-slate-300 transition-colors" do %>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                  </svg>
+                <% end %>
+                <%= button_to habit_path(habit), method: :delete, class: "text-slate-500 hover:text-red-400 transition-colors bg-transparent border-0 p-0 cursor-pointer", data: { turbo_confirm: "Archive this chain?" } do %>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8l1 12a2 2 0 002 2h8a2 2 0 002-2L19 8m-9 4v4m4-4v4"/>
+                  </svg>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <!-- Day cells -->
+          <% @days.each do |day| %>
+            <% completed = @completions.dig(habit.id)&.include?(day) %>
+            <div class="h-12 flex items-center justify-center border-b border-slate-700/30 <%= day == Date.current ? 'bg-teal-900/20' : '' %>"
+                 id="cell-<%= habit.id %>-<%= day %>">
+              <% if completed %>
+                <%= button_to habit_habit_log_path(habit, "current", date: day.to_s),
+                              method: :delete,
+                              class: "w-9 h-9 rounded-full flex items-center justify-center transition-all hover:scale-110 cursor-pointer shadow-lg",
+                              style: "background-color: #{habit.color};",
+                              data: { turbo_stream: true, habit_id: habit.id, date: day.to_s } do %>
+                  <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                  </svg>
+                <% end %>
+              <% else %>
+                <%= button_to habit_habit_logs_path(habit, date: day.to_s),
+                              method: :post,
+                              class: "w-9 h-9 rounded-full border-2 border-slate-600 hover:border-slate-400 hover:scale-110 transition-all cursor-pointer",
+                              data: { turbo_stream: true, habit_id: habit.id, date: day.to_s } do %>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <!-- Add new chain -->
+      <div class="flex-shrink-0 w-14 border-l border-slate-700/30">
+        <div class="h-44 flex items-center justify-center">
+          <%= link_to new_habit_path,
+                      class: "flex flex-col items-center gap-1 text-slate-500 hover:text-teal-400 transition-colors group" do %>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            <span class="text-xs font-medium tracking-widest uppercase [writing-mode:vertical-rl] rotate-180">Add New Chain</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

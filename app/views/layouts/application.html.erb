@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= content_for(:title) || "Abit" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 min-h-screen text-white">
+    <% if notice.present? %>
+      <div id="flash-notice" class="fixed top-4 right-4 z-50 bg-teal-500 text-white px-4 py-2 rounded-lg shadow-lg text-sm" data-controller="flash">
+        <%= notice %>
+      </div>
+    <% end %>
+    <% if alert.present? %>
+      <div id="flash-alert" class="fixed top-4 right-4 z-50 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg text-sm">
+        <%= alert %>
+      </div>
+    <% end %>
+
+    <div class="flex min-h-screen">
+      <% if user_signed_in? %>
+        <!-- Sidebar -->
+        <nav class="w-14 bg-slate-950/50 flex flex-col items-center py-6 gap-6 border-r border-slate-700/50 flex-shrink-0">
+          <div class="text-teal-400 font-bold text-lg">A</div>
+          <div class="flex-1 flex flex-col gap-4 mt-4">
+            <%= link_to root_path, class: "text-slate-400 hover:text-white transition-colors", title: "Dashboard" do %>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+              </svg>
+            <% end %>
+          </div>
+          <div class="mt-auto">
+            <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: "text-slate-500 hover:text-red-400 transition-colors", title: "Sign out" do %>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+              </svg>
+            <% end %>
+          </div>
+        </nav>
+      <% end %>
+
+      <!-- Main content -->
+      <main class="flex-1 overflow-x-auto">
+        <%= yield %>
+      </main>
+    </div>
+  </body>
+</html>

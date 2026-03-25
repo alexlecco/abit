@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(ruby --version)",
+      "Bash(rails --version)",
+      "Bash(psql --version)",
+      "Bash(rbenv versions:*)",
+      "Bash(brew list:*)",
+      "Bash(brew install:*)",
+      "Bash(RBENV_VERSION=3.3.9 /opt/homebrew/bin/rbenv exec gem install rails -v \"~> 8.1\")",
+      "Bash(brew services:*)",
+      "Bash(/opt/homebrew/opt/postgresql@16/bin/psql --version)",
+      "Bash(RBENV_VERSION=3.3.9 /opt/homebrew/bin/rbenv exec rails new abit --database=postgresql --css=tailwind --javascript=importmap --skip-test)",
+      "Bash(RBENV_VERSION=3.3.9 bundle install)",
+      "Bash(rails generate:*)",
+      "Bash(/Users/alexlecco/workspace/rails/abit/app/controllers/users/omniauth_callbacks_controller.rb:*)",
+      "Bash(curl:*)",
+      "Bash(pkill -f 'rails server')",
+      "Bash(export PATH=/opt/homebrew/opt/rbenv/bin:/opt/homebrew/opt/postgresql@16/bin:$PATH)",
+      "Bash(eval '$\\(rbenv init -\\)')",
+      "Bash(rails server:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

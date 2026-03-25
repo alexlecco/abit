@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: abit
+    runtime: ruby
+    plan: free
+    buildCommand: bundle install && bundle exec rake assets:precompile && bundle exec rake db:migrate
+    startCommand: bundle exec rails server -p $PORT -e production
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: abit-db
+          property: connectionString
+
+databases:
+  - name: abit-db
+    plan: free
