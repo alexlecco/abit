@@ -1,0 +1,37 @@
+es:
+  errors:
+    not_authorized: "No tenés permiso para realizar esta acción."
+  app:
+    tagline: "Construí hábitos. No rompas la cadena."
+  nav:
+    dashboard: "Inicio"
+    sign_out: "Cerrar sesión"
+    language: "Idioma"
+  auth:
+    sign_in_prompt: "Iniciá sesión para registrar tus hábitos"
+    continue_with_google: "Continuar con Google"
+    agreement: "Al iniciar sesión, aceptás registrar tus hábitos diariamente."
+  dashboard:
+    title: "Abit - Tus Cadenas"
+    empty_title: "Sin cadenas aún."
+    empty_subtitle: "¡Empezá a construir buenos hábitos — no rompas la cadena!"
+    create_first: "Crear tu primera cadena"
+    longest: "Mejor racha:"
+    current_streak: "Racha actual:"
+    add_new_chain: "Nueva Cadena"
+    archive_confirm: "¿Archivar esta cadena?"
+  habits:
+    new_title: "Nueva Cadena"
+    edit_title: "Editar Cadena"
+    subtitle: "Registrá tu hábito diario y construí una cadena."
+    name_label: "Nombre del hábito"
+    name_placeholder: "ej. Salir a correr, Leer 30 min..."
+    description_label: "Descripción (opcional)"
+    description_placeholder: "ej. 30 min de ejercicio por día"
+    color_label: "Color"
+    create_button: "Crear Cadena"
+    update_button: "Actualizar Cadena"
+    cancel: "Cancelar"
+    created: "¡Cadena creada!"
+    updated: "¡Cadena actualizada!"
+    archived: "Cadena archivada."

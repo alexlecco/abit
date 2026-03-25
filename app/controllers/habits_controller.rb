@@ -15,7 +15,7 @@ class HabitsController < ApplicationController
     @habit.position = current_user.habits.count
 
     if @habit.save
-      redirect_to root_path, notice: "Chain created!"
+      redirect_to root_path, notice: t("habits.created")
     else
       render :new, status: :unprocessable_entity
     end
@@ -26,7 +26,7 @@ class HabitsController < ApplicationController
 
   def update
     if @habit.update(habit_params)
-      redirect_to root_path, notice: "Chain updated!"
+      redirect_to root_path, notice: t("habits.updated")
     else
       render :edit, status: :unprocessable_entity
     end
@@ -34,7 +34,7 @@ class HabitsController < ApplicationController
 
   def destroy
     @habit.update(active: false)
-    redirect_to root_path, notice: "Chain archived."
+    redirect_to root_path, notice: t("habits.archived")
   end
 
   private

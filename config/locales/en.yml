@@ -1,31 +1,37 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
-  hello: "Hello world"
+  errors:
+    not_authorized: "You are not authorized to perform this action."
+  app:
+    tagline: "Build habits. Don't break the chain."
+  nav:
+    dashboard: "Dashboard"
+    sign_out: "Sign out"
+    language: "Language"
+  auth:
+    sign_in_prompt: "Sign in to track your daily habits"
+    continue_with_google: "Continue with Google"
+    agreement: "By signing in, you agree to track your habits daily."
+  dashboard:
+    title: "Abit - Your Chains"
+    empty_title: "No chains yet."
+    empty_subtitle: "Start building good habits — don't break the chain!"
+    create_first: "Create your first chain"
+    longest: "Longest:"
+    current_streak: "Current streak:"
+    add_new_chain: "Add New Chain"
+    archive_confirm: "Archive this chain?"
+  habits:
+    new_title: "New Chain"
+    edit_title: "Edit Chain"
+    subtitle: "Track your daily habit and build a chain."
+    name_label: "Habit Name"
+    name_placeholder: "e.g. Go jogging, Read 30 min..."
+    description_label: "Description (optional)"
+    description_placeholder: "e.g. 30 min of exercise per day"
+    color_label: "Color"
+    create_button: "Create Chain"
+    update_button: "Update Chain"
+    cancel: "Cancel"
+    created: "Chain created!"
+    updated: "Chain updated!"
+    archived: "Chain archived."

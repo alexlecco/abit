@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= I18n.locale %>">
   <head>
     <title><%= content_for(:title) || "Abit" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -11,7 +11,7 @@
 
   <body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 min-h-screen text-white">
     <% if notice.present? %>
-      <div id="flash-notice" class="fixed bottom-4 right-4 z-50 bg-teal-500 text-white px-4 py-2 rounded-lg shadow-lg text-sm" data-controller="flash">
+      <div id="flash-notice" class="fixed bottom-4 right-4 z-50 bg-teal-500 text-white px-4 py-2 rounded-lg shadow-lg text-sm">
         <%= notice %>
       </div>
     <% end %>
@@ -27,14 +27,27 @@
         <nav class="w-14 bg-slate-950/50 flex flex-col items-center py-6 gap-6 border-r border-slate-700/50 flex-shrink-0">
           <div class="text-teal-400 font-bold text-lg">A</div>
           <div class="flex-1 flex flex-col gap-4 mt-4">
-            <%= link_to root_path, class: "text-slate-400 hover:text-white transition-colors", title: "Dashboard" do %>
+            <%= link_to root_path, class: "text-slate-400 hover:text-white transition-colors", title: t("nav.dashboard") do %>
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
               </svg>
             <% end %>
+
+            <!-- Language switcher -->
+            <% next_locale = I18n.locale == :en ? :es : :en %>
+            <%= button_to locale_path(locale: next_locale),
+                          method: :post,
+                          class: "text-slate-400 hover:text-white transition-colors bg-transparent border-0 p-0 cursor-pointer flex flex-col items-center gap-0.5",
+                          title: t("nav.language"),
+                          data: { turbo: false } do %>
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+              </svg>
+              <span class="text-xs font-bold leading-none"><%= next_locale.to_s.upcase %></span>
+            <% end %>
           </div>
           <div class="mt-auto">
-            <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: "text-slate-500 hover:text-red-400 transition-colors", title: "Sign out" do %>
+            <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: "text-slate-500 hover:text-red-400 transition-colors", title: t("nav.sign_out") do %>
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
               </svg>
