@@ -60,7 +60,9 @@
             <% completed = @completions.dig(habit.id)&.include?(day) %>
             <div class="h-12 flex items-center justify-center border-b border-slate-700/30 <%= day == Date.current ? 'bg-teal-900/20' : '' %>"
                  id="cell-<%= habit.id %>-<%= day %>">
-              <% if completed %>
+              <% if day < habit.start_date %>
+                <div class="w-9 h-9 rounded-full bg-slate-800/30"></div>
+              <% elsif completed %>
                 <%= button_to habit_habit_log_path(habit, "current", date: day.to_s),
                               method: :delete,
                               class: "w-9 h-9 rounded-full flex items-center justify-center transition-all hover:scale-110 cursor-pointer shadow-lg",
