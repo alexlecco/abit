@@ -11,12 +11,12 @@
 
   <body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 min-h-screen text-white">
     <% if notice.present? %>
-      <div id="flash-notice" class="fixed top-4 right-4 z-50 bg-teal-500 text-white px-4 py-2 rounded-lg shadow-lg text-sm" data-controller="flash">
+      <div id="flash-notice" class="fixed bottom-4 right-4 z-50 bg-teal-500 text-white px-4 py-2 rounded-lg shadow-lg text-sm" data-controller="flash">
         <%= notice %>
       </div>
     <% end %>
     <% if alert.present? %>
-      <div id="flash-alert" class="fixed top-4 right-4 z-50 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg text-sm">
+      <div id="flash-alert" class="fixed bottom-4 right-4 z-50 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg text-sm">
         <%= alert %>
       </div>
     <% end %>
