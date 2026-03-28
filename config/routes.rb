@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     resources :habit_logs, only: [ :create, :destroy ]
   end
 
-  post "locale/:locale", to: "locales#update", as: :locale
+  get "locale/:locale", to: "locales#update", as: :locale
 
   get "up" => "rails/health#show", as: :rails_health_check
 end
