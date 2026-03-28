@@ -1,4 +1,5 @@
 class HabitsController < ApplicationController
+  before_action :require_login
   before_action :set_habit, only: [ :edit, :update, :destroy ]
 
   def index

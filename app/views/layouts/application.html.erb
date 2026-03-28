@@ -59,5 +59,21 @@
         <%= yield %>
       </main>
     </div>
+    <script>
+      // Si estamos en un popup y el usuario ya está autenticado, cerrar y recargar el padre
+      if (window.opener && !window.opener.closed && <%= user_signed_in?.to_json %>) {
+        window.opener.location.reload();
+        window.close();
+      }
+
+      function openGooglePopup(event) {
+        var width = 500, height = 620;
+        var left = Math.round((screen.width / 2) - (width / 2));
+        var top = Math.round((screen.height / 2) - (height / 2));
+        // Abrir popup en blanco con el nombre target del form
+        window.open('', 'google-popup', 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top + ',scrollbars=yes');
+        // El form ya tiene target="google-popup", así que el submit irá al popup
+      }
+    </script>
   </body>
 </html>

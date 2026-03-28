@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   stale_when_importmap_changes
 
   before_action :set_locale
-  before_action :authenticate_user!
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -13,6 +12,10 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     I18n.locale = session[:locale] || I18n.default_locale
+  end
+
+  def require_login
+    redirect_to root_path, status: :see_other unless user_signed_in?
   end
 
   def user_not_authorized
