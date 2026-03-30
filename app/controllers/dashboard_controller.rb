@@ -1,7 +1,10 @@
 class DashboardController < ApplicationController
-  before_action :authenticate_user!
-
   def index
+    unless user_signed_in?
+      render "users/sessions/new"
+      return
+    end
+
     @habits = current_user.habits.active.ordered
     earliest = @habits.minimum(:start_date) || Date.current
     start = [ earliest, Date.current - 29.days ].max
