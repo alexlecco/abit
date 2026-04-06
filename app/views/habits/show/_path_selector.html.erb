@@ -1,0 +1,39 @@
+<div class="text-center mb-10">
+  <h2 class="text-2xl font-bold text-white mb-2"><%= t("paths.choose_title") %></h2>
+  <p class="text-slate-400"><%= t("paths.choose_subtitle") %></p>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+  <%# Path A: Activities %>
+  <%= button_to habit_path_selection_path(@habit),
+        params: { path_type: "activities" },
+        method: :post,
+        data: { turbo_confirm: t("paths.confirm_select") },
+        class: "text-left p-6 rounded-2xl border border-slate-700/50 bg-slate-800/40 hover:bg-slate-700/40 hover:border-slate-500 transition-all cursor-pointer group" do %>
+    <div class="text-3xl mb-4">✅</div>
+    <h3 class="font-bold text-white text-lg mb-2"><%= t("paths.activities.name") %></h3>
+    <p class="text-slate-400 text-sm leading-relaxed"><%= t("paths.activities.description") %></p>
+  <% end %>
+
+  <%# Path B: Learning %>
+  <%= button_to habit_path_selection_path(@habit),
+        params: { path_type: "learning" },
+        method: :post,
+        data: { turbo_confirm: t("paths.confirm_select") },
+        class: "text-left p-6 rounded-2xl border border-slate-700/50 bg-slate-800/40 hover:bg-slate-700/40 hover:border-slate-500 transition-all cursor-pointer group" do %>
+    <div class="text-3xl mb-4">📚</div>
+    <h3 class="font-bold text-white text-lg mb-2"><%= t("paths.learning.name") %></h3>
+    <p class="text-slate-400 text-sm leading-relaxed"><%= t("paths.learning.description") %></p>
+  <% end %>
+
+  <%# Path C: Outcome Tree %>
+  <%= button_to habit_path_selection_path(@habit),
+        params: { path_type: "goals" },
+        method: :post,
+        data: { turbo_confirm: t("paths.confirm_select") },
+        class: "text-left p-6 rounded-2xl border border-slate-700/50 bg-slate-800/40 hover:bg-slate-700/40 hover:border-slate-500 transition-all cursor-pointer group" do %>
+    <div class="text-3xl mb-4">🌱</div>
+    <h3 class="font-bold text-white text-lg mb-2"><%= t("paths.goals.name") %></h3>
+    <p class="text-slate-400 text-sm leading-relaxed"><%= t("paths.goals.description") %></p>
+  <% end %>
+</div>

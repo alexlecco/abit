@@ -56,7 +56,9 @@
           <div class="h-44 p-3 flex flex-col justify-between border-b border-slate-700/50"
                style="background-color: <%= habit.color %>22; border-top: 3px solid <%= habit.color %>;">
             <div>
-              <h3 class="font-bold text-xs text-white leading-tight tracking-wide"><%= habit.name.upcase %></h3>
+              <%= link_to habit_path(habit), class: "font-bold text-xs text-white leading-tight tracking-wide hover:text-teal-300 transition-colors" do %>
+                <%= habit.name.upcase %>
+              <% end %>
               <% if habit.description.present? %>
                 <p class="text-xs mt-1 text-slate-300 leading-tight line-clamp-2"><%= habit.description %></p>
               <% end %>

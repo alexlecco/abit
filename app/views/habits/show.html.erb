@@ -1,0 +1,13 @@
+<% content_for :title, @habit.name %>
+
+<div class="min-h-screen" style="background-color: <%= "#{@habit.color}1A" %>;">
+  <%= render "habits/show/header", habit: @habit %>
+
+  <div class="max-w-3xl mx-auto px-6 py-8">
+    <% if @habit.path_selected? %>
+      <%= render "habits/show/path_#{@habit.path_type}" %>
+    <% else %>
+      <%= render "habits/show/path_selector" %>
+    <% end %>
+  </div>
+</div>
