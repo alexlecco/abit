@@ -1,9 +1,28 @@
 class HabitsController < ApplicationController
   before_action :require_login
-  before_action :set_habit, only: [ :edit, :update, :destroy ]
+  before_action :set_habit, only: [ :show, :edit, :update, :destroy ]
 
   def index
     redirect_to root_path
+  end
+
+  def show
+    case @habit.path_type
+    when "activities"
+      @activities = @habit.activities.ordered
+      @today_completions = ActivityCompletion
+        .where(activity_id: @activities.pluck(:id), completed_on: Date.current)
+        .pluck(:activity_id).to_set
+    when "learning"
+      @resources_by_week = @habit.learning_resources.ordered.group_by(&:week_number)
+      @current_week = @habit.current_week_number
+    when "goals"
+      @goal = @habit.goal
+      @milestones = @goal&.weekly_milestones&.ordered || []
+      @current_week = @habit.current_week_number
+      @current_milestone = @goal&.milestone_for_week(@current_week)
+      @today_checkin = @habit.daily_checkins.find_by(checked_on: Date.current)
+    end
   end
 
   def new
