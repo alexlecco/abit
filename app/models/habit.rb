@@ -1,9 +1,16 @@
 class Habit < ApplicationRecord
   belongs_to :user
   has_many :habit_logs, dependent: :destroy
+  has_many :activities, dependent: :destroy
+  has_one  :goal, dependent: :destroy
+  has_many :learning_resources, dependent: :destroy
+  has_many :daily_checkins, dependent: :destroy
 
   validates :name, presence: true
   validates :color, presence: true
+  validates :path_type, inclusion: { in: %w[activities learning goals] }, allow_nil: true
+
+  PATH_TYPES = %w[activities learning goals].freeze
 
   COLORS = %w[
     #14B8A6 #22C55E #EAB308 #A855F7
@@ -45,6 +52,16 @@ class Habit < ApplicationRecord
     end
 
     [ longest, current ].max
+  end
+
+  def path_selected?
+    path_type.present?
+  end
+
+  def current_week_number
+    return 1 unless start_date
+    weeks = ((Date.current - start_date) / 7).floor + 1
+    weeks.clamp(1, 4)
   end
 
   def update_streaks!
