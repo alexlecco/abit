@@ -5,13 +5,10 @@ class WeeklyMilestonesController < ApplicationController
   def create
     @goal = @habit.goal
     @milestone = @goal.weekly_milestones.build(milestone_params)
-    respond_to do |format|
-      if @milestone.save
-        format.turbo_stream
-        format.html { redirect_to habit_path(@habit) }
-      else
-        format.html { redirect_to habit_path(@habit), alert: @milestone.errors.full_messages.to_sentence }
-      end
+    if @milestone.save
+      redirect_to habit_path(@habit)
+    else
+      redirect_to habit_path(@habit), alert: @milestone.errors.full_messages.to_sentence
     end
   end
 

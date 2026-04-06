@@ -4,13 +4,10 @@ class GoalsController < ApplicationController
 
   def create
     @goal = @habit.build_goal(goal_params)
-    respond_to do |format|
-      if @goal.save
-        format.turbo_stream
-        format.html { redirect_to habit_path(@habit) }
-      else
-        format.html { redirect_to habit_path(@habit), alert: @goal.errors.full_messages.to_sentence }
-      end
+    if @goal.save
+      redirect_to habit_path(@habit)
+    else
+      redirect_to habit_path(@habit), alert: @goal.errors.full_messages.to_sentence
     end
   end
 

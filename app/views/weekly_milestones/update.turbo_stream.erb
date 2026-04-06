@@ -1,0 +1,8 @@
+<%= turbo_stream.replace "milestone-node-week-#{@milestone.week_number}" do %>
+  <%= render "weekly_milestones/milestone_node",
+        habit: @habit,
+        goal: @goal,
+        milestone: @milestone,
+        week: @milestone.week_number,
+        current_week: @habit.current_week_number %>
+<% end %>

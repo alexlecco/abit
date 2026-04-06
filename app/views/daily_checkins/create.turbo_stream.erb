@@ -1,0 +1,6 @@
+<%= turbo_stream.replace "daily-checkin-widget" do %>
+  <%= render "daily_checkins/checkin_widget",
+        habit: @habit,
+        today_checkin: @today_checkin,
+        current_milestone: @current_milestone %>
+<% end %>

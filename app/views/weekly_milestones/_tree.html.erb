@@ -1,0 +1,11 @@
+<div class="space-y-3">
+  <% (1..4).each do |week| %>
+    <% milestone = milestones.find { |m| m.week_number == week } %>
+    <%= render "weekly_milestones/milestone_node",
+          habit: habit,
+          goal: goal,
+          milestone: milestone,
+          week: week,
+          current_week: current_week %>
+  <% end %>
+</div>

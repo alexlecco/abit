@@ -1,0 +1,71 @@
+<% is_current = week == current_week %>
+<% is_achieved = milestone&.achieved? %>
+<% is_future = week > current_week %>
+
+<div class="flex gap-4 items-start p-4 rounded-xl border transition-colors
+            <%= is_achieved ? 'border-teal-500/40 bg-teal-900/10' : is_current ? 'border-slate-600/60 bg-slate-800/40' : 'border-slate-700/20 bg-slate-800/20 opacity-60' %>"
+     id="milestone-node-week-<%= week %>">
+
+  <%# Week circle indicator %>
+  <div class="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold
+              <%= is_achieved ? 'text-white' : is_current ? 'text-white bg-slate-700' : 'text-slate-600 bg-slate-800' %>"
+       style="<%= is_achieved ? "background-color: #{habit.color};" : '' %>">
+    <% if is_achieved %>
+      <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+      </svg>
+    <% else %>
+      <%= week %>
+    <% end %>
+  </div>
+
+  <div class="flex-1 min-w-0">
+    <p class="text-xs text-slate-500 mb-1">Week <%= week %></p>
+
+    <% if milestone.nil? && is_current %>
+      <%# Add milestone form for current week %>
+      <%= form_with url: habit_weekly_milestones_path(habit), data: { turbo_stream: true } do |f| %>
+        <%= f.hidden_field :week_number, value: week %>
+        <div class="space-y-2">
+          <%= f.text_field :description,
+                placeholder: t("paths.goals.milestone_placeholder"),
+                class: "w-full bg-slate-800/60 border border-slate-600 rounded-lg px-3 py-2 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-teal-500" %>
+          <%= f.text_area :acceptance_criteria,
+                placeholder: t("paths.goals.criteria_placeholder"),
+                rows: 2,
+                class: "w-full bg-slate-800/60 border border-slate-600 rounded-lg px-3 py-2 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-teal-500 resize-none" %>
+          <%= f.submit t("paths.goals.add_milestone"),
+                class: "bg-teal-500 hover:bg-teal-600 text-white text-xs font-medium px-4 py-1.5 rounded-lg transition-colors cursor-pointer" %>
+        </div>
+      <% end %>
+    <% elsif milestone %>
+      <p class="text-white text-sm font-medium"><%= milestone.description %></p>
+      <% if milestone.acceptance_criteria.present? %>
+        <p class="text-slate-500 text-xs mt-1"><%= milestone.acceptance_criteria %></p>
+      <% end %>
+
+      <% if is_achieved && milestone.reflection.present? %>
+        <p class="text-teal-400/70 text-xs mt-2 italic">"<%= milestone.reflection %>"</p>
+      <% end %>
+
+      <% if is_current && !is_achieved %>
+        <%= form_with url: habit_weekly_milestone_path(habit, milestone), method: :patch, data: { turbo_stream: true } do |f| %>
+          <div class="mt-3 space-y-2">
+            <%= f.text_area :reflection,
+                  placeholder: t("paths.goals.reflection_placeholder"),
+                  rows: 2,
+                  class: "w-full bg-slate-800/60 border border-slate-600 rounded-lg px-3 py-2 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-teal-500 resize-none" %>
+            <div class="flex gap-2">
+              <%= f.hidden_field :achieved, value: "true" %>
+              <%= f.submit t("paths.goals.mark_achieved"),
+                    class: "text-xs font-medium px-4 py-1.5 rounded-lg transition-colors cursor-pointer text-white",
+                    style: "background-color: #{habit.color};" %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    <% else %>
+      <p class="text-slate-600 text-sm"><%= t("paths.goals.milestone_not_set") %></p>
+    <% end %>
+  </div>
+</div>

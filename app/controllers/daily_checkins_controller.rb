@@ -12,6 +12,7 @@ class DailyCheckinsController < ApplicationController
     respond_to do |format|
       if @checkin.save
         @today_checkin = @checkin
+        @current_milestone = @habit.goal&.milestone_for_week(@habit.current_week_number)
         format.turbo_stream
         format.html { redirect_to habit_path(@habit) }
       else
@@ -24,6 +25,7 @@ class DailyCheckinsController < ApplicationController
     @checkin = @habit.daily_checkins.find_by(checked_on: Date.current, user: current_user)
     @checkin&.destroy
     @today_checkin = nil
+    @current_milestone = @habit.goal&.milestone_for_week(@habit.current_week_number)
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to habit_path(@habit) }

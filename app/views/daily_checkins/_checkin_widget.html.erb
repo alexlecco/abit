@@ -1,0 +1,52 @@
+<div class="border-t border-slate-700/30 pt-6">
+  <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4"><%= t("paths.goals.checkin_title") %></h3>
+
+  <% if current_milestone.nil? %>
+    <p class="text-slate-500 text-sm"><%= t("paths.goals.checkin_no_milestone") %></p>
+  <% elsif today_checkin %>
+    <%# Already checked in today — show result + undo %>
+    <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700/30">
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex gap-1">
+          <% 5.times do |i| %>
+            <span class="text-lg <%= i < today_checkin.progress_score ? '' : 'opacity-20' %>"
+                  style="<%= i < today_checkin.progress_score ? "filter: drop-shadow(0 0 4px #{habit.color});" : '' %>">⭐</span>
+          <% end %>
+        </div>
+        <%= button_to habit_daily_checkin_path(habit, today_checkin),
+              method: :delete,
+              class: "text-xs text-slate-500 hover:text-slate-300 transition-colors bg-transparent border-0 cursor-pointer",
+              data: { turbo_stream: true } do %>
+          <%= t("paths.goals.undo_checkin") %>
+        <% end %>
+      </div>
+      <% if today_checkin.notes.present? %>
+        <p class="text-slate-400 text-sm"><%= today_checkin.notes %></p>
+      <% end %>
+    </div>
+  <% else %>
+    <%# Check-in form with star rating %>
+    <%= form_with url: habit_daily_checkins_path(habit), data: { turbo_stream: true } do |f| %>
+      <div data-controller="star-rating" data-star-rating-score-value="0" class="space-y-4">
+        <div class="flex gap-2">
+          <% 5.times do |i| %>
+            <button type="button"
+                    data-star-rating-target="star"
+                    data-score="<%= i + 1 %>"
+                    data-action="click->star-rating#select"
+                    class="text-2xl opacity-20 hover:opacity-80 transition-opacity cursor-pointer">⭐</button>
+          <% end %>
+        </div>
+        <%= f.hidden_field :progress_score, value: 0, data: { star_rating_target: "input" } %>
+        <%= f.text_area :notes,
+              placeholder: t("paths.goals.checkin_notes_placeholder"),
+              rows: 2,
+              class: "w-full bg-slate-800/60 border border-slate-600 rounded-xl px-4 py-3 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-teal-500 resize-none" %>
+        <%= f.submit t("paths.goals.submit_checkin"),
+              class: "text-white text-sm font-medium px-6 py-2.5 rounded-lg transition-colors cursor-pointer",
+              style: "background-color: #{habit.color};",
+              data: { star_rating_target: "submit" } %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
