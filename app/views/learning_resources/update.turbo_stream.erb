@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "learning-resource-#{@resource.id}" do %>
+  <%= render "learning_resources/resource", resource: @resource, habit: @habit %>
+<% end %>

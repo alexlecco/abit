@@ -1,0 +1,3 @@
+<%= turbo_stream.append "week-#{@resource.week_number}-resources" do %>
+  <%= render "learning_resources/resource", resource: @resource, habit: @habit %>
+<% end %>

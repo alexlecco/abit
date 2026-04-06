@@ -1,0 +1,28 @@
+<div class="mb-6 flex items-center justify-between">
+  <h2 class="text-lg font-semibold text-white"><%= t("paths.learning.resources_title") %></h2>
+  <span class="text-xs text-slate-500"><%= t("paths.learning.week_label", week: @current_week) %></span>
+</div>
+
+<div data-controller="tab" data-tab-active-value="<%= @current_week %>">
+  <%# Week tabs %>
+  <div class="flex gap-2 mb-6 border-b border-slate-700/30 pb-3">
+    <% (1..4).each do |week| %>
+      <button data-tab-target="tab"
+              data-tab="<%= week %>"
+              data-action="click->tab#show"
+              class="px-4 py-1.5 rounded-full text-sm font-medium transition-colors <%= week == @current_week ? 'bg-teal-500/20 text-teal-300' : 'text-slate-500 hover:text-slate-300' %>">
+        Week <%= week %>
+      </button>
+    <% end %>
+  </div>
+
+  <%# Week panels %>
+  <% (1..4).each do |week| %>
+    <div data-tab-target="panel" data-tab="<%= week %>" class="<%= week == @current_week ? '' : 'hidden' %>">
+      <%= render "learning_resources/week_panel",
+            habit: @habit,
+            week: week,
+            resources: (@resources_by_week[week] || []) %>
+    </div>
+  <% end %>
+</div>
