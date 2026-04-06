@@ -1,0 +1,3 @@
+<%= turbo_stream.append "activities-list" do %>
+  <%= render "activities/activity", activity: @activity, habit: @habit, today_completions: @today_completions || Set.new %>
+<% end %>

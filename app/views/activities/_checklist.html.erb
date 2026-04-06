@@ -1,0 +1,9 @@
+<% if activities.empty? %>
+  <p class="text-slate-500 text-sm py-4"><%= t("paths.activities.empty") %></p>
+<% else %>
+  <div class="space-y-2" id="activities-list">
+    <% activities.each do |activity| %>
+      <%= render "activities/activity", activity: activity, habit: habit, today_completions: today_completions %>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,35 @@
+<% completed = today_completions.include?(activity.id) %>
+<div class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/40 hover:bg-slate-800/60 transition-colors" id="activity-<%= activity.id %>">
+  <% if completed %>
+    <%= button_to habit_activity_completions_path(habit, activity_id: activity.id),
+          method: :delete,
+          params: { activity_id: activity.id },
+          class: "flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-all hover:scale-110 cursor-pointer",
+          style: "background-color: #{habit.color};",
+          data: { turbo_stream: true } do %>
+      <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+      </svg>
+    <% end %>
+  <% else %>
+    <%= button_to habit_activity_completions_path(habit, activity_id: activity.id),
+          method: :post,
+          params: { activity_id: activity.id },
+          class: "flex-shrink-0 w-6 h-6 rounded-full border-2 border-slate-600 hover:border-slate-400 hover:scale-110 transition-all cursor-pointer bg-transparent",
+          data: { turbo_stream: true } do %>
+    <% end %>
+  <% end %>
+
+  <span class="flex-1 text-sm <%= completed ? 'text-slate-400 line-through' : 'text-white' %>">
+    <%= activity.title %>
+  </span>
+
+  <%= button_to habit_activity_path(habit, activity),
+        method: :delete,
+        class: "flex-shrink-0 text-slate-600 hover:text-red-400 transition-colors bg-transparent border-0 p-0 cursor-pointer",
+        data: { turbo_stream: true, turbo_confirm: t("paths.activities.delete_confirm") } do %>
+    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+    </svg>
+  <% end %>
+</div>

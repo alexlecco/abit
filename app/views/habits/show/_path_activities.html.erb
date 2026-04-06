@@ -1,0 +1,38 @@
+<div class="mb-8">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-lg font-semibold text-white"><%= t("paths.activities.today_title") %></h2>
+    <% all_done = @activities.any? && @activities.all? { |a| @today_completions.include?(a.id) } %>
+    <% if all_done %>
+      <span class="text-xs bg-teal-500/20 text-teal-300 px-3 py-1 rounded-full font-medium">
+        <%= t("paths.activities.all_done") %>
+      </span>
+    <% end %>
+  </div>
+
+  <div id="activities-checklist-<%= @habit.id %>">
+    <%= render "activities/checklist", habit: @habit, activities: @activities, today_completions: @today_completions %>
+  </div>
+</div>
+
+<div class="border-t border-slate-700/30 pt-6" data-controller="inline-form">
+  <button data-action="click->inline-form#toggle"
+          class="flex items-center gap-2 text-slate-400 hover:text-teal-400 transition-colors text-sm font-medium">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+    </svg>
+    <%= t("paths.activities.add_activity") %>
+  </button>
+
+  <div data-inline-form-target="form" class="hidden mt-4">
+    <%= form_with url: habit_activities_path(@habit), data: { turbo_stream: true, action: "turbo:submit-end->inline-form#reset" } do |f| %>
+      <div class="flex gap-3">
+        <%= f.text_field :title,
+              placeholder: t("paths.activities.activity_placeholder"),
+              class: "flex-1 bg-slate-800/60 border border-slate-600 rounded-lg px-4 py-2 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-teal-500",
+              required: true %>
+        <%= f.submit t("paths.activities.add_button"),
+              class: "bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors cursor-pointer" %>
+      </div>
+    <% end %>
+  </div>
+</div>
